@@ -55,7 +55,56 @@
 
 ;; Problem 7. Write a procedure remove-second that takes a list, and returns the same list with the second value removed. 
 (defn remove-second [l] 
-  (def first-half (subvec l 1 2 ))
-  (def second-half (subvec 2 (count l) ))
-  (concat first-half second-half)
+  (def second-half (drop 2 l)) ;; drops the first two elements 
+  (def first-half (nth l 0)) ;; gets the first element 
+  (cons first-half second-half)
 )
+
+;; Problem 8. Write a procedure add-to-end that takes in two arguments:
+;; a list l and a value x. It should return a new list which is the same as l, except that it has x as its final element
+(defn add-to-end [l x] 
+  (def newlis (list x))
+  (concat l newlis)
+)
+;; (add-to-end (list 1 2 3) 4)
+
+
+;; Problem 9. Write a procedure, called reverse, that takes in a list, and returns the reverse
+(defn reverse [l] 
+  (reverse l)
+)
+
+;; Problem 10. Write a procedure, called count-to-1, that takes a positive integer n, and 
+;; returns a list of the integers counting down from n to 1.
+(defn count-to-1 [n]
+  (def startIndex (+ n 1))
+  (def inorder (range 1 startIndex))
+  (reverse inorder)
+)
+(count-to-1 5)
+
+;; Problem 11. Write a procedure, called count-to-n, that takes a positive integer n, and 
+;; returns a list of the integers from 1 to n.
+(defn count-to-n [n]
+ (range 1 (+ n 1))
+)
+
+;; Probelm 12. Write a procedure, called get-max, that takes a list of numbers, and 
+;; returns the maximum value.
+(defn get-max [l]
+  (apply max l)
+)
+(get-max (list 1 2 3 5 9))
+
+;; Problem 13. Write a procedure, called greater-than-five?, that takes a list of numbers, and 
+;; replaces each number with true if the number is greater than 5, and false otherwise.
+(defn greater-than-five? [l]
+  ;; (for [n l] (if(> n 5) (conj myList true) (conj myList false)))
+  ;; use map
+  (map (defn myfunc [n] (if (> n 5) true false)) l)
+)
+;; CHECK IF THE WORD LIST NEEDS TO BE INCLUDED !!!!
+;; 
+
+;; Problem 14. Write a procedure, called concat-three, that takes three sequences (represented as lists), x
+;; y, and z, and returns the concatenation of the three sequences.
