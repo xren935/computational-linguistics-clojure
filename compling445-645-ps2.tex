@@ -297,7 +297,11 @@ $(A\cdot B)$ to denote the concatenation of $A$ and $B$, in
 that order. Find an example of languages $A$ and $B$ such that
 $(A\cdot B)=(B\cdot A)$.
 
-\paragraph{Answer 17:} Please put your answer here.
+\paragraph{Answer 17:} 
+Concatenation is obviously commutative in the case of a unary alphabet.
+For formal language $A$, let it be represented as the a set of strings: \{a\}, 
+For formal language $B$, let it be represented as the a set of strings: \{aa\},
+Thus, $(A\cdot B)$=\{a\}\{aa\}=\{aaa\}, and $(B\cdot A)$=\{aa\}\{a\}=\{aaa\}
 
 \noindent\hrulefill %--------------------------------
 
@@ -305,7 +309,10 @@ $(A\cdot B)=(B\cdot A)$.
 Let $A$ and $B$ be languages. Find an example of languages $A$ and $B$
 such that $(A\cdot B)$ does not equal $(B\cdot A)$
 
-\paragraph{Answer 18:} Please put your answer here.
+\paragraph{Answer 18:} Let $A$ be any subset of a $V1*$ where $V1*$ is the set of all possible strings over some vocabulary 
+$V1$=\{a,ab\}. Similarly, Let $B$ be any subset of a $V1*$ where $V2*$ is the set of all possible strings over some vocabulary 
+$V2$=\{bb,b\}. $(A\cdot B)$=\{abb,ab,abbb\}, and $(B\cdot A)$=\{bba,bbab,ba,bab\}. It's clear that $(A\cdot B)$ does not equal $(B\cdot A)$.
+
 
 \noindent\hrulefill %--------------------------------
 
@@ -313,7 +320,7 @@ such that $(A\cdot B)$ does not equal $(B\cdot A)$
 Find an example of a language $L$ such that $L=L^2$,
 i.e. $L=(L\cdot L)$.
 
-\paragraph{Answer 19:} Please put your answer here.
+\paragraph{Answer 19:} Let $L$ be the empty languae(an empty set). It is clear that $L=L^2$.
 
 \noindent\hrulefill %--------------------------------
 
@@ -321,8 +328,13 @@ i.e. $L=(L\cdot L)$.
 Argue that the intersection of two languages $L$ and $L'$ is always
 contained in $L$.
 
-\paragraph{Answer 20:} Please put your answer here.
-
+\paragraph{Answer 20:} The intersection of two sets $A$ and $B$ is defined as 
+A\capB=\{x\given x\epsilonA\landx\epsilonB\}, which is a set containing elements that are in both of set $A$ and set $B$.
+Let language $L$ be any subset of the set that contains all possible strings over some vocabulary $A$,  
+and $L'$ be any subset of the set that contains all possible strings over some vocabulary $B$, 
+their intersection is a set containing both elements from $A$ and $B$. Thus, the combinations formed using this smaller intersecting set
+must be able to be formed by elements in either set $A$ or set $B$. The intersection of the two languages, which is any subset of the set that contains 
+elements in both of the sets that made up those two languages, is always contained in $L$.
 \noindent\hrulefill %--------------------------------
 
 \paragraph{Problem 21:}
@@ -331,7 +343,9 @@ of Cartesian products $(L_1 \times L_3) \cup (L_2 \times L_4)$ is
 always contained in the Cartesian product of unions
 $(L_1 \cup L_2) \times (L_3 \cup L_4)$.
 
-\paragraph{Answer 21:} Please put your answer here.
+\paragraph{Answer 21:} The right-hand-side of the equation can be rewritten, using the fact that Cartesian product is distributive over union(proved here \href{https://proofwiki.org/wiki/Cartesian_Product_Distributes_over_Union}), as
+$(L_1 \times L_3) \cup (L_2 \times L_4) \cup (L_1 \times L_4) \cup (L_2 \times L_3)$. By the definition of union, the set $(L_1 \times L_3) \cup (L_2 \times L_4) \cup (L_1 \times L_4) \cup (L_2 \times L_3)$ contains 
+$(L_1 \times L_3) \cup (L_2 \times L_4)$. 
 
 \noindent\hrulefill %--------------------------------
 
@@ -340,7 +354,17 @@ Let $L$ and $L'$ be finite languages. Show that the number of elements
 in the Cartesian product $L \times L'$ is always equal to the number
 of elements in $L' \times L$.
 
-\paragraph{Answer 22:} Please put your answer here.
+\paragraph{Answer 22:} Language $L$ is any subset of the set that contains all possible strings over some vocabulary $L$, and
+Language $L'$ is any subset of the set that contains all possible strings over some vocabulary $L'$,   
+First suppose that $L$ and $L'$ are two finite sets such that $L$ has $n$ number of elements and $L'$ has $m$ number of elements. 
+Then prove that the Cartesian product $L \times L'$ is a finite set that has $m \times n$ number of elements.
+If either of $L$ and $L'$ is empty then so is $L \times L'$ and the result follows. Suppose both sets are non-empty. 
+Let $f : \mathbb{N}n \rightarrow L$ be a bijection and write $L_i = f(i)$. Then 
+$L = \{l_1, L_2, ..., L_n\} = {L_1} \cup {L_2} \cup...\cup {L_n} $
+and so $L \times L' = ( \{ L_1 \} \times L') \cup (\{ L_2 \} \times L') \cup ... \cup (\{L_n\} \times L')$ 
+but now if $g:\mathbb{N}n \rightarrow L'$ is a bijection then $i \mapsto (x_k, g(i))$ gives a bijection $\mathbb{N}m \rightarrow T$
+so that $|(\{L_k \times L'\})| = m$. Thus, these finite sets are pairwise disjoint, then the cardinality of these disjoint unions is equal the sum of the cardinalities of these finite sets
+Hence, $L \times L'$ is a finite set that has $m \times n$ number of elements. 
 
 \noindent\hrulefill %--------------------------------
 
@@ -350,6 +374,14 @@ Suppose that the concatenation of a language L is equal to itself:
 $(L\cdot L) = L$. Show that $L$ is either the empty set, 
 the set $\{\epsilon\}$, or an infinite language.
 
-\paragraph{Answer 23:} Please put your answer here.
+\paragraph{Answer 23:} As seen in class, the concatenation $(L\cdot L) = L$ is the stringset that contains all strings we can make 
+by choosing one from the first set, in this case $L$, and one from the the second set $L$ and concatenating the two strings. How many ways can we choose a string from an empty set of strings? 
+We have no way to choose a string from the empty set, and thus the concatenation of an empty language to itself is an empty language:
+$x \cdot\epsilon = \epsilon\cdot x = x $. 
+If $L$ is not the empty set, and thus containing at least 1 element, then we can take a string x from the same alphabet. Then the length $|xx|$ of the concatenation of x and x is $|x| + |x|$, 
+which can't equals to $|x|$ unless $|x|$ is 0 or infinity. This could be generalized as x can be any finite number of elements.
+Similarly, $\{ \epsilon \}$ is a set that contains all possible combinations of the empty string and is therefore empty. Thus $\{ \epsilon \}$  concatenated with itself still results in a set of empty strings, $\{ \epsilon \}$. 
+The cardinality of an infinite set is infinite, thus concatenate an infinite set to itself results in a set containing infinite number of sets, which is still an infinite set. 
+
 
 \end{document}

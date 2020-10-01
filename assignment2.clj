@@ -72,7 +72,7 @@
   (def newlis (list x))
   (concat l newlis)
 )
-;; (add-to-end (list 1 2 3) 4)
+(add-to-end (list 1 2 3) 4)
 
 
 ;; Problem 9. Write a procedure, called reverse, that takes in a list, and returns the reverse
@@ -83,7 +83,7 @@
      (reverse (rest coll))
      (list (first coll))))
 )
-;; (rev (list 1 2 3))
+(reverse (list 1 2 3))
 
 ;; Problem 10. Write a procedure, called count-to-1, that takes a positive integer n, and 
 ;; returns a list of the integers counting down from n to 1.
@@ -97,18 +97,20 @@
 ;; Problem 11. Write a procedure, called count-to-n, that takes a positive integer n, and 
 ;; returns a list of the integers from 1 to n.
 (defn count-to-n [n]
- (range 1 (+ n 1))
+  (def toOne (count-to-1 n))
+  (reverse toOne)
 )
+(count-to-n 5)
 
 ;; Probelm 12. Write a procedure, called get-max, that takes a list of numbers, and 
 ;; returns the maximum value.
-(defn comp [a b]
+(defn compare [a b]
   (if (> a b) a b)
 )
 (defn get-max [l]
-  (reduce comp l)
+  (reduce compare l)
 )
-;;(get-max (list 1 2 3))
+(get-max (list 1 2 3))
 
 
 ;; Problem 13. Write a procedure, called greater-than-five?, that takes a list of numbers, and 
@@ -118,71 +120,50 @@
   ;; use map
   (map (defn myfunc [n] (if (> n 5) true false)) l)
 )
-;; CHECK IF THE WORD "LIST" NEEDS TO BE INCLUDED !!!!
-;; 
+(def input (list 1 5 4 7))
+(greater-than-five? input)
 
 ;; Problem 14. Write a procedure, called concat-three, that takes three sequences (represented as lists), x
 ;; y, and z, and returns the concatenation of the three sequences.
-(defn myconcat
-  ([] (lazy-seq nil))
-  ([x] (lazy-seq x))
-  ([x y]
-   (lazy-seq
-    (let [s (seq x)]
-      (if s
-        (if (chunked-seq? s)
-          (chunk-cons (chunk-first s) (concat (chunk-rest s) y))
-          (cons (first s) (concat (rest s) y)))
-        y))))
-  ([x y & zs]
-   (let [cat (fn cat [xys zs]
-               (lazy-seq
-                (let [xys (seq xys)]
-                  (if xys
-                    (if (chunked-seq? xys)
-                      (chunk-cons (chunk-first xys)
-                                  (cat (chunk-rest xys) zs))
-                      (cons (first xys) (cat (rest xys) zs)))
-                    (when zs
-                      (cat (first zs) (next zs)))))))]
-     (cat (concat x y) zs))))
-
 (defn concat-three [x y z]
-  (myconcat x y z)
+  (concat (concat x y) z)
 )
+
 ;; Problem 15. 
 ;; sequence-to-power takes a list x and a positive int n 
 ;; returns the sequence of n concatenations of the x string
 ;; concat x to itself for n number of times 
-(defn generate-abn [x n]
+(defn sequence-to-power [x n]
   (if (= n 0)
     '()
-    (concat x (generate-abn x (- n 1)))
+    (concat x (sequence-to-power x (- n 1)))
   )
 )
-(generate-abn (list 1 2) 3)
+(sequence-to-power (list 1 2) 3)
 
 ;; Problem 16. 
 ;; Define L as a language containing a single sequence, L = {a}. 
 ;; in-L? that takes a sequence x, and decides if it is a member of the language L
 ;; helper function prefix? 
-(defn prefix? [pr lst]
-  (cond
-    (> (count pr) (count lst)) false
-    (empty? pr) true
-    (= (first pr) (first lst)) (prefix? (rest pr) (rest lst))
-    :else false))
-
+(defn prefix? [x L]
+  (if (> (count x) (count L))
+    false
+    (if (empty? x)
+      true
+      (if (= (first x) (first L))
+        (prefix? (rest x) (rest L))
+        false))))
 ;; DEFINING THE LANGUAGE L HERE AS L=(list 1 2 3)
-(def L (list 1 2 3))
+(def L (list 1 2 3 4 5))
 
 (defn in-L? [x]
   (if (empty? x)
     true
     (if (prefix? x L)
-      (in-L? (rest (rest x)))
+      (in-L?(rest (rest x)))
       false)))
-  
+(in-L? '(1 2))
+
 ;; 
 ;; Problem 17. 
 ;; 
