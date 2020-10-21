@@ -250,7 +250,7 @@ assigns equal probability to each of them.
 	 outcomes)))
 \end{lstlisting}
 
-\paragraph{Answer 3:} Please put your answer in \texttt{ps\PSnum-lastname-firstname.clj}.
+\paragraph{Answer 3:} Please see my answer in \texttt{ps\PSnum-lastname-firstname.clj}.
 
 \noindent\hrulefill %--------------------------------
 
@@ -270,7 +270,7 @@ Note that this is a bag of words model, as defined in class. That is,
 we assume every element of the list is generated independently. We
 will call this the uniform bag of words model.
 
-\paragraph{Answer 4:} Please put your answer in
+\paragraph{Answer 4:} Please see my answer in
 \texttt{ps\PSnum-lastname-firstname.clj}.
 
 \noindent\hrulefill %--------------------------------
@@ -287,7 +287,7 @@ For example, if \texttt{vocab} equals \texttt{(list 'the 'a 'every)},
 and sentence equals \texttt{(list 'every 'every)}, then the function
 should return $\frac{1}{9}$.
 
-\paragraph{Answer 5:} Please put your answer in
+\paragraph{Answer 5:} Please see my answer in
 \texttt{ps\PSnum-lastname-firstname.clj}.
 
 \noindent\hrulefill %--------------------------------
@@ -302,7 +302,7 @@ these 3-word sentences, use \texttt{compute-uniform-BOW-prob} to
 compute the probability of the sentence according to the uniform bag
 of words model. What do you notice? Why is this true?
 
-\paragraph{Answer 6:} Please put your answer here.
+\paragraph{Answer 6:} All sentences are 3-words long and we are sampling from the \textbf{uniform} bag of words model(so all the words have the same probability), and the words are generated \textbf{independently}. Thus, the probability of each of these sentences generated is the product of the probability of each word in it. Thus all sentences have the same probability.
 
 \noindent\hrulefill %--------------------------------
 
@@ -342,7 +342,7 @@ proportion to its frequency in the text. A word which occurs 2 times
 should receive twice as much probability as a word which occurs 1
 time.
 
-\paragraph{Answer 7:} Please put your answer in
+\paragraph{Answer 7:} Please see my answer in
 \texttt{ps\PSnum-lastname-firstname.clj}.
 
 \noindent\hrulefill %--------------------------------
@@ -355,7 +355,7 @@ bag of words model, in which the probabilities are set to be those in
 times, and write down the sentences that you collect through this
 process.
 
-\paragraph{Answer 8:} Please put the output sentences here.
+\paragraph{Answer 8:} (throws I sword) (their the I) (get the but) (get mind or) (circulation me little)
 
 \noindent\hrulefill %--------------------------------
 
@@ -384,7 +384,7 @@ of numbers as its argument, and returns the product of these numbers.
   (apply * l))
 \end{lstlisting}
 
-\paragraph{Answer 9:} Please put your answer in
+\paragraph{Answer 9:} Please see my answer in
 \texttt{ps\PSnum-lastname-firstname.clj}.
 
 \noindent\hrulefill %--------------------------------
@@ -403,7 +403,7 @@ list of words) according to the bag of words model.
 This function is a generalization of the function
 \texttt{compute-uniform-BOW-prob} that you defined above.
 
-\paragraph{Answer 10:} Please put your answer in
+\paragraph{Answer 10:} Please see my answer in
 \texttt{ps\PSnum-lastname-firstname.clj}.
 
 \noindent\hrulefill %--------------------------------
@@ -424,6 +424,7 @@ according to the bag of words model? When computing the probability of
 a sentence under a bag of words model, what information about the
 sentence suffices to compute this probability?
 
-\paragraph{Answer 11:} Please put your answer here.
+\paragraph{Answer 11:} It is clear that the probabilities of the sentences generated in Problem8 are greater than probabilities of sentences sampled in Problem6. sentence chosen: (get the but), and probability computed using \texttt{compute-BOW-prob} is 20/9129329. \newline Yes, it is possible to construct another sentence that has the same probability. Since according to \texttt{moby-word-probabilities} "get" has the same probability as "off", the sentence (off the but) would have the same probability as (get the but). Because the words are generated independently, to compute the probability of a sentence, we need to know the probability of each of the vocabularies that made up the sentence.    
+
 
 \end{document}
