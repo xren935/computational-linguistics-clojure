@@ -99,11 +99,21 @@
 ;; Problem 5 
 ;; (println (compute-conditional-dist my-corpus theta-prior))
 ;; 
+;; helper function 
+(defn expo [lst]
+  (if (empty? lst)
+    ()
+    (cons (Math/pow 2 (first lst)) (expo (rest lst)))))
+(expo (compute-conditional-dist my-corpus theta-prior))
 
 ; ;Problem 6
-; (defn compute-posterior-predictive [observed-corpus new-corpus theta-probs]
-; 	(let [conditional-dist ... 
-; 		(compute-marginal ...
+(defn compute-posterior-predictive [observed-corpus new-corpus theta-probs]
+  (let [conditional-dist (expo 
+    (compute-conditional-dist observed-corpus theta-probs))]
+  (compute-marginal new-corpus conditional-dist)))
+(compute-posterior-predictive my-corpus my-corpus theta-prior)
+(Math/pow 2 (compute-posterior-predictive my-corpus my-corpus theta-prior)) 
+;; (println (compute-posterior-predictive my-corpus my-corpus theta-prior))
 
 ; ;Problem 7
 (defn normalize [params]
@@ -121,10 +131,10 @@
       (sample-categorical (rest outcomes) 
                           (normalize (rest params)))))
 
-(defn repeat [f n]
-  (if (= n 0)
-      '()
-      (cons (f) (repeat f (- n 1)))))
+;; (defn repeat [f n]
+;;   (if (= n 0)
+;;       '()
+;;       (cons (f) (repeat f (- n 1)))))
 
 (defn sample-BOW-sentence [len probabilities]
 		(if (= len 0)
@@ -132,10 +142,23 @@
 		  (cons (sample-categorical vocabulary probabilities)
 		    (sample-BOW-sentence (- len 1) probabilities))))
 
+;; sample-BOW-corpus returns a sample corpus of corpus-len from the bag of words model
+;; given the model parameters theta, and each sentence is of length sent-len
+(defn sample-BOW-corpus [theta sent-len corpus-len]
+  (repeatedly corpus-len (fn [] (sample-BOW-sentence sent-len theta))))
+;; (println (sample-BOW-corpus theta1 2 2))
+;; 
+
 ; ;Problem 8
-; (defn sample-theta-corpus [sent-len corpus-len theta-probs]
-;   (let [theta ...
-;     (list theta ...
+; returns a list with two elements: 
+;; a value of theta sampled from the distribution defined by theta-probs;
+;; and a corpus sampled from the bag of words model 
+;; as usual, sent-len is the no. of words in each sentence
+;; and corpus-len is the no. of sentences in a corpus
+(defn sample-theta-corpus [sent-len corpus-len theta-probs]
+  (let [theta (sample-categorical thetas theta-probs)]
+        (list theta (sample-BOW-corpus theta sent-len corpus-len))))
+;; (println (sample-theta-corpus 2 2 theta1))
 
 ; ;Problem 9
 (defn get-theta [theta-corpus]
@@ -145,8 +168,17 @@
   (first (rest theta-corpus)))
 
 ; ;uncomment the following after you have defined `sample-theta-corpus` above
-; (defn sample-thetas-corpora [sample-size sent-len corpus-len theta-probs]
-;   (repeat (fn [] (sample-theta-corpus sent-len corpus-len theta-probs)) sample-size))
+(defn sample-thetas-corpora [sample-size sent-len corpus-len theta-probs]
+  (repeatedly sample-size (fn [] (sample-theta-corpus sent-len corpus-len theta-probs))))
+;; Dear TA, please note that I changed "repeat" to "repeatedly" becase the former was causing a stack-overflow error
+
+(defn estimate-corpus-marginal [corpus sample-size sent-len corpus-len theta-probs]
+	(let [sample-corpora (map get-corpus (sample-thetas-corpora sample-size sent-len corpus-len theta-probs))]
+		(/ (apply + (map (fn [c] (if (= c corpus) 1 0)) sample-corpora)) sample-size)))
+
+;; Problem 10 
+;; (println (estimate-corpus-marginal my-corpus 50 2 2 theta-prior))
+;; (println (estimate-corpus-marginal my-corpus 10000 2 2 theta-prior))
 
 ; ;Problem 11
 (defn get-count [obs observation-list count]
@@ -156,11 +188,15 @@
           (get-count obs (rest observation-list) (+ 1 count))
           (get-count obs (rest observation-list) count))))
 
-
 (defn get-counts [outcomes observation-list]
   (let [count-obs (fn [obs] (get-count obs observation-list 0))]
     (map count-obs outcomes)))
 
-; (defn rejection-sampler 
-;   [theta observed-corpus sample-size sent-len corpus-len theta-probs]
-;   ...)
+;;  (defn rejection-sampler 
+;;    [theta observed-corpus sample-size sent-len corpus-len theta-probs]
+ 
+;;   )
+(defn rejection-sampler [theta observed-corpus sample-size sent-len corpus-len theta-probs]
+	(let [pairs (sample-thetas-corpora sample-size sent-len corpus-len theta-probs)]
+		(/ (get-count theta (map get-theta (filterv (fn [p] (= observed-corpus (get-corpus p))) pairs)) 0) (count pairs))))
+(println (rejection-sampler theta1 my-corpus 100 2 2 theta-prior))
