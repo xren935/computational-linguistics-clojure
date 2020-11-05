@@ -54,10 +54,6 @@
 (def my-corpus '((call me)
 				(call ishmael)))
 
-;; (defn theta-corpus-joint [theta corpus theta-probs]
-;; 	(+ (score-corpus corpus theta) 
-;; 		(log2 (score-categorical theta thetas theta-probs))))
-
 (defn index-in-list [w lst index]
   (if (empty? lst)
     -1
@@ -147,7 +143,6 @@
 (defn sample-BOW-corpus [theta sent-len corpus-len]
   (repeatedly corpus-len (fn [] (sample-BOW-sentence sent-len theta))))
 ;; (println (sample-BOW-corpus theta1 2 2))
-;; 
 
 ; ;Problem 8
 ; returns a list with two elements: 
@@ -196,7 +191,16 @@
 ;;    [theta observed-corpus sample-size sent-len corpus-len theta-probs]
  
 ;;   )
+(defn reduce-pairs [a b]
+  (list (+ (first a) (first b)) (+ (first (rest a)) (first (rest b)))))
+
 (defn rejection-sampler [theta observed-corpus sample-size sent-len corpus-len theta-probs]
-	(let [pairs (sample-thetas-corpora sample-size sent-len corpus-len theta-probs)]
-		(/ (get-count theta (map get-theta (filterv (fn [p] (= observed-corpus (get-corpus p))) pairs)) 0) (count pairs))))
-(println (rejection-sampler theta1 my-corpus 100 2 2 theta-prior))
+  (let [tc-pairs (sample-thetas-corpora sample-size sent-len corpus-len theta-probs)]
+    (reduce (fn [a b] (if (= b 0) 0 (/ a b)))
+            (reduce
+             (fn [pa pb] (reduce-pairs pa pb))
+             '(0 0)
+             (map (fn [tc] (get-counts (list theta observed-corpus) tc))
+                  (filter (fn [tc] (= (get-corpus tc) observed-corpus))
+                          tc-pairs))))))
+;; (println (rejection-sampler theta1 my-corpus 20000 2 2 theta-prior))

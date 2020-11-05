@@ -1,3 +1,1 @@
-(defn rejection-sampler [theta observed-corpus sample-size sent-len corpus-len theta-probs]
-	(let [pairs (sample-thetas-corpora sample-size sent-len corpus-len theta-probs)]
-		(/ (get-count theta (map get-theta (filterv (fn [p] (= observed-corpus (get-corpus p))) pairs)) 0) (count pairs))))
+(println (rejection-sampler theta1 my-corpus 100 2 2 theta-prior))
