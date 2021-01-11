@@ -1,1 +1,0 @@
-(println (rejection-sampler theta1 my-corpus 100 2 2 theta-prior))
